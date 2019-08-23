@@ -17,6 +17,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    ListNode *listNode = [ListNode creatListNodeForm:@[@1,@2,@3,@4,@5,@6,@7]];
+    [listNode printAllListNode];
 }
 
 

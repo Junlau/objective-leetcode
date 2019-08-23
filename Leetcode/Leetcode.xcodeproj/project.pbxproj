@@ -13,6 +13,7 @@
 		4B434D99230EBD1A0019C271 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4B434D98230EBD1A0019C271 /* Assets.xcassets */; };
 		4B434D9C230EBD1A0019C271 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B434D9A230EBD1A0019C271 /* LaunchScreen.storyboard */; };
 		4B434D9F230EBD1A0019C271 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B434D9E230EBD1A0019C271 /* main.m */; };
+		4B434DA9230F92230019C271 /* ListNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B434DA8230F92230019C271 /* ListNode.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,8 @@
 		4B434D9B230EBD1A0019C271 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4B434D9D230EBD1A0019C271 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4B434D9E230EBD1A0019C271 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4B434DA7230F92230019C271 /* ListNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListNode.h; sourceTree = "<group>"; };
+		4B434DA8230F92230019C271 /* ListNode.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListNode.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 		4B434D8E230EBD140019C271 /* Leetcode */ = {
 			isa = PBXGroup;
 			children = (
+				4B434DA6230F8D930019C271 /* List */,
+				4B434DA5230F8D930019C271 /* BinaryTree */,
 				4B434D8F230EBD140019C271 /* AppDelegate.h */,
 				4B434D90230EBD140019C271 /* AppDelegate.m */,
 				4B434D92230EBD140019C271 /* ViewController.h */,
@@ -69,6 +74,22 @@
 				4B434D9E230EBD1A0019C271 /* main.m */,
 			);
 			path = Leetcode;
+			sourceTree = "<group>";
+		};
+		4B434DA5230F8D930019C271 /* BinaryTree */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = BinaryTree;
+			sourceTree = "<group>";
+		};
+		4B434DA6230F8D930019C271 /* List */ = {
+			isa = PBXGroup;
+			children = (
+				4B434DA7230F92230019C271 /* ListNode.h */,
+				4B434DA8230F92230019C271 /* ListNode.m */,
+			);
+			path = List;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +165,7 @@
 				4B434D94230EBD140019C271 /* ViewController.m in Sources */,
 				4B434D9F230EBD1A0019C271 /* main.m in Sources */,
 				4B434D91230EBD140019C271 /* AppDelegate.m in Sources */,
+				4B434DA9230F92230019C271 /* ListNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
