@@ -30,12 +30,16 @@
     return listNode;
 }
 
-- (void)printAllListNode {
+- (NSString *)printAllListNode {
     ListNode *nextNode = self;
+    NSMutableString *logString = [NSMutableString string];
     while (nextNode) {
         NSLog(@"-->%ld",(long)nextNode.value);
+        [logString appendString:[NSString stringWithFormat:@"-->%ld",nextNode.value]];
         nextNode = nextNode.next;
     }
+    NSLog(@"%@",logString);
+    return logString;
 }
 
 @end

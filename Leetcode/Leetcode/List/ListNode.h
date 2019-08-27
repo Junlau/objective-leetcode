@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (ListNode *)creatListNodeForm:(NSArray *)array;
 
-- (void)printAllListNode;
+- (NSString *)printAllListNode;
 @end
 
 NS_ASSUME_NONNULL_END
