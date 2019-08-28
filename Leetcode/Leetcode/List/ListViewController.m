@@ -27,10 +27,10 @@
     self.afterLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.afterLabel];
     
-    ListNode *listNode1 = [ListNode creatListNodeForm:@[@2,@4,@3,@1]];
+    ListNode *listNode1 = [ListNode creatListNodeForm:@[@1,@2,@3,@4,@5]];
     ListNode *listNode2 = [ListNode creatListNodeForm:@[@5,@6,@4]];
     self.originalLabel.text = [listNode1 printAllListNode];
-    self.afterLabel.text = [[self addTwoNumber:listNode1 other:listNode2] printAllListNode];
+    self.afterLabel.text = [[self reverseLinkedList:listNode1 form:2 to:5] printAllListNode];
     
 }
 
@@ -207,11 +207,120 @@ Example: Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8 Explanation: 3
  Input: 1->2->3->4->5->NULL
  Output: 5->4->3->2->1->NULL
  */
+
+//头插法
 - (ListNode *)reverseLinkedList:(ListNode *)head {
     ListNode *resultList = [[ListNode alloc]init];
+    resultList.next = head;
+    ListNode *nextNode = head.next;
+    while (nextNode) {
+        head.next = nextNode.next;
+        nextNode.next = resultList.next;
+        resultList.next = nextNode;
+        
+        nextNode = head.next;
+    }
     
-    return ListNode;
+    resultList = resultList.next;
+    return resultList;
+}
+
+//直接从头到尾转换
+- (ListNode *)reverseLinkedList2:(ListNode *)head {
+    ListNode *preNode = nil; //上一个
+    
+    while (head) {
+        ListNode *nextNode = head.next; //下一个
+        head.next = preNode;
+        preNode = head;
+        head = nextNode;
+    }
+
+    return preNode;
 }
 
 
+/*
+ 92. Reverse Linked List II
+ 
+ 
+ Reverse a linked list from position m to n. Do it in one-pass.
+ 
+ Note: 1 ≤ m ≤ n ≤ length of list.
+ 
+ Example:
+ 
+ Input: 1->2->3->4->5->NULL, m = 2, n = 4
+ Output: 1->4->3->2->5->NULL
+
+ */
+
+- (ListNode *)reverseLinkedList:(ListNode *)head form:(NSInteger)formIndex to:(NSInteger)toIndex {
+    if (head == nil || head.next == nil || formIndex == toIndex) {
+        return head;
+    }
+    
+    if (formIndex < 0 || toIndex < 0 || formIndex > toIndex) {
+        return head;
+    }
+    
+    ListNode *resultList = head;
+    ListNode *perFormNode = nil;
+    ListNode *curNode = resultList;
+    ListNode *nextNode = nil;
+    
+    if (formIndex == 1) {
+        perFormNode = [[ListNode alloc]init];
+        perFormNode.next = curNode;
+    }
+    
+    for (int i = 1; i<toIndex; i++) {
+        if (i == formIndex - 1) {
+            perFormNode = curNode;
+        }
+        
+        if (i >= formIndex) {
+            nextNode = curNode.next;
+            curNode.next = nextNode.next;
+            nextNode.next = perFormNode.next;
+            perFormNode.next = nextNode;
+        } else {
+            curNode = curNode.next;
+        }
+        
+        if (curNode == nil) {
+            break;
+        }
+        
+    }
+    
+    if (formIndex == 1) {
+        resultList = perFormNode.next;
+    }
+    
+    return resultList;
+}
+
+- (ListNode *)reverseLinkedList2:(ListNode *)head form:(NSInteger)formIndex to:(NSInteger)toIndex {
+    if (head == nil || head.next == nil || formIndex == toIndex) {
+        return head;
+    }
+    
+    if (formIndex < 0 || toIndex < 0 || formIndex > toIndex) {
+        return head;
+    }
+    
+    ListNode *resultList = head;
+    ListNode *perFormNode = nil;
+    ListNode *curNode = nil;
+    ListNode *nextToNode = nil;
+    
+    if (formIndex == 1) {
+        perFormNode = [[ListNode alloc]init];
+        perFormNode.next = curNode;
+    }
+    
+
+    return resultList;
+}
 @end
