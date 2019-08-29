@@ -30,7 +30,7 @@
     ListNode *listNode1 = [ListNode creatListNodeForm:@[@1,@2,@3,@4,@5]];
     ListNode *listNode2 = [ListNode creatListNodeForm:@[@5,@6,@4]];
     self.originalLabel.text = [listNode1 printAllListNode];
-    self.afterLabel.text = [[self reverseLinkedList:listNode1 form:2 to:5] printAllListNode];
+    self.afterLabel.text = [[self deleteNode:listNode1 dNode:3] printAllListNode];
     
 }
 
@@ -310,17 +310,96 @@ Example: Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8 Explanation: 3
         return head;
     }
     
-    ListNode *resultList = head;
+    ListNode *resultList = [[ListNode alloc]init];
+    resultList.next = head;
+    
     ListNode *perFormNode = nil;
-    ListNode *curNode = nil;
+    
     ListNode *nextToNode = nil;
     
-    if (formIndex == 1) {
-        perFormNode = [[ListNode alloc]init];
-        perFormNode.next = curNode;
+    ListNode *p = resultList;
+    int count = 0;
+    while (p != nil) {
+        if (count == formIndex) {
+            int temp = 0;
+            ListNode *tempNode = nil;
+            ListNode *curNode = p;
+            while (curNode != nil && temp < (toIndex - formIndex)+1) {
+                nextToNode = curNode.next;
+                curNode.next = tempNode;
+                tempNode = curNode;
+                curNode = nextToNode;
+                
+                temp++;
+            }
+            
+            perFormNode.next = tempNode;
+            p.next = curNode;
+        }
+        
+        
+        perFormNode = p;
+        p = p.next;
+        count++;
     }
     
-
+    resultList = resultList.next;
     return resultList;
 }
+
+
+/*
+ Write a function to delete a node (except the tail) in a singly linked list,
+ 
+ given only access to that node.
+ 
+ Given linked list -- head = [4,5,1,9], which looks like following:
+ 
+ 4->5->1->9
+ 
+ Example 1:
+ 
+ Input: head = [4,5,1,9], node = 5
+ 
+ Output: [4,1,9]
+ 
+ Explntion: You are given the seond node with value 5, the linked list should
+ 
+ become 4 -> 1 -> 9 after calling your function.
+ 
+ Example 2:
+ 
+ Input: head = [4,5,1,9], node = 1
+ 
+ Output: [4,5,9]
+ 
+ Explntion: You are given the third node with value 1, the linked list should
+ 
+ become 4 -> 5 -> 9 after calling your function.
+ 
+ The linked list will have at least two elements.
+ 
+ All of the nodes' values will be unique.
+ 
+ The given node will not be the tail and it will always be a valid node of the linked
+ 
+ list.
+ 
+ Do not return anything from your function.
+ */
+
+- (ListNode *)deleteNode:(ListNode *)head dNode:(NSInteger)value {
+    ListNode *node = head;
+    while (node) {
+        if (node.value == value) {
+            break;
+        }
+        node = node.next;
+    }
+    node.value = node.next.value;
+    node.next = node.next.next;
+    
+    return head;
+}
+
 @end
