@@ -27,10 +27,10 @@
     self.afterLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.afterLabel];
     
-    ListNode *listNode1 = [ListNode creatListNodeForm:@[@1,@2,@3,@4,@5]];
+    ListNode *listNode1 = [ListNode creatListNodeForm:@[@1,@1,@6,@3,@4,@5,@6]];
     ListNode *listNode2 = [ListNode creatListNodeForm:@[@5,@6,@4]];
     self.originalLabel.text = [listNode1 printAllListNode];
-    self.afterLabel.text = [[self deleteNode:listNode1 dNode:3] printAllListNode];
+    self.afterLabel.text = [[self deleteNode2:listNode1 dNode:1] printAllListNode];
     
 }
 
@@ -401,5 +401,45 @@ Example: Input: (2 -> 4 -> 3) + (5 -> 6 -> 4) Output: 7 -> 0 -> 8 Explanation: 3
     
     return head;
 }
+
+
+/*
+203. Remove Linked List Elements
+
+Remove all elements from a linked list of integers that have value val.
+
+Example:
+
+Input:  1->2->6->3->4->5->6, val = 6
+Output: 1->2->3->4->5
+*/
+- (ListNode *)deleteNode2:(ListNode *)head dNode:(NSInteger)value {
+    ListNode *resultNode = [ListNode new];
+    resultNode.next = head;
+    ListNode *p = resultNode;
+    while (p) {
+        if (value == p.next.value) {
+            p.next = p.next.next;
+        } else {
+            p = p.next;
+        }
+    }
+    return resultNode.next;
+}
+
+/*
+ 今天的题目是把单链表按奇偶的顺序进行重新组合，奇偶指的是节点的下标而不是节点的值。
+
+ 328. Odd Even Linked List
+ 
+ Given a singly linked list, group all odd nodes together followed by the even nodes. Please note here we are talking about the node number and not the value in the nodes.
+ You should try to do it in place. The program should run in O(1) space complexity and O(nodes) time complexity.
+ 
+ Example 1:
+ Input: 1->2->3->4->5->NULL
+ Output: 1->3->5->2->4->NULL
+ 
+
+ */
 
 @end
