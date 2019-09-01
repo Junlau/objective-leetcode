@@ -27,10 +27,26 @@
     self.afterLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.afterLabel];
     
-    ListNode *listNode1 = [ListNode creatListNodeForm:@[@1,@1,@6,@3,@4,@5,@6]];
+    ListNode *listNode1 = [ListNode creatListNodeForm:@[@1,@2,@3,@4,@5,@6]];
     ListNode *listNode2 = [ListNode creatListNodeForm:@[@5,@6,@4]];
     self.originalLabel.text = [listNode1 printAllListNode];
-    self.afterLabel.text = [[self deleteNode2:listNode1 dNode:1] printAllListNode];
+    self.afterLabel.text = [[self rotateList:listNode1 index:2] printAllListNode];
+    
+    //创建一个有环的链表
+    ListNode *cycleNodel = [ListNode creatListNodeForm:@[@1,@2,@3,@4,@5,@6]];
+    ListNode *p = cycleNodel;
+    ListNode *secondNext = cycleNodel.next;
+    while (p.next != nil) {
+        p = p.next;
+    }
+    p.next = secondNext;
+    if ([self hasCycle:cycleNodel]) {
+        self.afterLabel.text = @"链表有环";
+    } else {
+        self.afterLabel.text = @"链表没环";
+    }
+    
+    self.afterLabel.text = [[self delectCycle:cycleNodel] printAllListNode];
     
 }
 
@@ -438,8 +454,141 @@ Output: 1->2->3->4->5
  Example 1:
  Input: 1->2->3->4->5->NULL
  Output: 1->3->5->2->4->NULL
- 
 
  */
+
+- (ListNode *)oddEvenLinkedList:(ListNode *)head {
+    //创建两个新链表，然后再合到一起
+    ListNode *firstList = nil;
+    ListNode *firstP = nil;
+    ListNode *secondList = nil;
+    ListNode *secondP = nil;
+    
+    ListNode * p = head;
+    int count = 1;
+    while (p) {
+        ListNode *curNode = p;
+        p = p.next;
+        curNode.next = nil; //断链
+        if (count%2 != 0) {
+            if (firstList == nil) {
+                firstList = curNode;
+                firstP = firstList;
+            } else {
+                firstP.next = curNode;
+                firstP = firstP.next;
+            }
+        } else {
+            if (secondList == nil) {
+                secondList = curNode;
+                secondP = secondList;
+            } else {
+                secondP.next = curNode;
+                secondP = secondP.next;
+            }
+        }
+        count++;
+    }
+    
+    firstP.next = secondList;
+    return firstList;
+}
+
+/*
+ 今天的题目和以往的思想都不一样，它要求对链表倒数 k 个节点后进行旋转。
+ 
+ 61. Rotate List
+ 
+ Given a linked list, rotate the list to the right by k places, where k is non-negative.Example 1:
+ 
+ Input: 1->2->3->4->5->NULL, k = 2
+ 
+ Output: 4->5->1->2->3->NULL
+ 
+ Explanation:
+ 
+ rotate 1 steps to the right: 5->1->2->3->4->NULL
+ 
+ rotate 2 steps to the right: 4->5->1->2->3->NULL
+ 
+ */
+
+- (ListNode *)rotateList:(ListNode *)head index:(NSInteger)index {
+    //先将链表形成一个闭环，然后再移动几步
+    ListNode *resultNode = nil;
+    ListNode *p = head;
+    int listCount = 1;//链表总长度
+    while (p.next != nil) {
+        listCount++;
+        p = p.next;
+    }
+    p.next = head; //链表闭环
+    int headIndex = listCount - index%listCount; //计算步数
+    for (int i = 0; i < headIndex; i++) {
+        p = p.next;
+    }
+    resultNode = p.next;
+    p.next = nil;
+    return resultNode;
+}
+
+/*
+ Linked List Cycle
+ 
+ 链表是否有环，题目的解释可能会把你绕晕，我就不引用原文了。存在环，也就是说链表的 next 指针永远不为空，总会指向链表中某个节点。
+ */
+
+- (BOOL)hasCycle:(ListNode *)head {
+    BOOL isHave = NO; //默认没有
+    //同时遍历，一个快一点一个慢一点，相遇就是有环
+    ListNode *slow = head;
+    ListNode *fast = head;
+    while (slow != nil && fast != nil) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow == fast) {
+            isHave = YES;
+            break;
+        }
+    }
+    return isHave;
+}
+
+/*
+ 142. Linked List Cycle II
+ 
+ Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+ 
+ 下图中链表存在环，题目的要求是找出 4 这个点(环点，相遇的点)，当然如果链表不存在环，也就不会存在环的起点。
+ */
+
+- (ListNode *)delectCycle:(ListNode *)head {
+    ListNode *resultNode = nil;
+    ListNode *slow = head;
+    ListNode *fast = head;
+    BOOL isHave = NO;
+    while (slow != nil && fast != nil) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow == fast) {
+            isHave = YES;
+            break;
+        }
+    }
+    if (!isHave) {
+        return nil;
+    }
+    //当两个相等之后，把慢的那个指向头结点，快的那个依旧指向相遇结点，从新开始遍历，再次相等的那个就是环点（算法）
+    //另一种方法是把各个结点放到字典中，能重复取出来的就是环点
+    slow = head;
+    while (slow != fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    resultNode = slow;
+    resultNode.next = nil;
+    
+    return resultNode;
+}
 
 @end
